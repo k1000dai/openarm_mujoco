@@ -96,6 +96,11 @@ def openarm_insertion_xml() -> str:
     return asset_path("insertion.xml")
 
 
+def openarm_two_arm_lift_xml() -> str:
+    """Return the XML path for the OpenArm Cell two-arm lift task."""
+    return asset_path("two_arm_lift.xml")
+
+
 def openarm_pedestal_xml() -> str:
     """Return the XML path with pedestal."""
     return asset_path("pedestal.xml")
