@@ -36,6 +36,7 @@ ALOHA-style bimanual manipulation scenes are provided under `v2/`:
 - `v2/transfer_cube.xml` — the right arm picks up a cube and hands it to the left arm.
 - `v2/insertion.xml` — the right arm grasps a red peg and the left arm grasps a blue socket, then the peg is inserted into the socket.
 - `v2/two_arm_lift.xml` — both arms grasp the handles of a pot and lift it off the table together while keeping it level.
+- `v2/cloth_fold.xml` — a square piece of cloth (MuJoCo flex) lies on the table; the arms pinch its edge and fold it over.
 
 Launch one by passing its path to the launcher, for example:
 

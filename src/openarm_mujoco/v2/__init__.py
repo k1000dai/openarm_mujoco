@@ -101,6 +101,11 @@ def openarm_two_arm_lift_xml() -> str:
     return asset_path("two_arm_lift.xml")
 
 
+def openarm_cloth_fold_xml() -> str:
+    """Return the XML path for the OpenArm Cell cloth folding task."""
+    return asset_path("cloth_fold.xml")
+
+
 def openarm_pedestal_xml() -> str:
     """Return the XML path with pedestal."""
     return asset_path("pedestal.xml")
