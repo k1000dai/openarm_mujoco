@@ -86,6 +86,16 @@ def openarm_demo_xml() -> str:
     return asset_path("demo.xml")
 
 
+def openarm_transfer_cube_xml() -> str:
+    """Return the XML path for the OpenArm Cell cube transfer task."""
+    return asset_path("transfer_cube.xml")
+
+
+def openarm_insertion_xml() -> str:
+    """Return the XML path for the OpenArm Cell insertion task."""
+    return asset_path("insertion.xml")
+
+
 def openarm_pedestal_xml() -> str:
     """Return the XML path with pedestal."""
     return asset_path("pedestal.xml")

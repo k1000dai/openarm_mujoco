@@ -29,6 +29,21 @@ With Wall Collisions:
 openarm-mujoco-launch --walls
 ```
 
+## Task scenes
+
+ALOHA-style bimanual manipulation scenes are provided under `v2/`:
+
+- `v2/transfer_cube.xml` — the right arm picks up a cube and hands it to the left arm.
+- `v2/insertion.xml` — the right arm grasps a red peg and the left arm grasps a blue socket, then the peg is inserted into the socket.
+
+Launch one by passing its path to the launcher, for example:
+
+```bash
+openarm-mujoco-launch "$(python -c 'import openarm_mujoco.v2 as m; print(m.openarm_insertion_xml())')"
+```
+
+The matching path helpers are `openarm_transfer_cube_xml()` and `openarm_insertion_xml()` in `openarm_mujoco.v2`.
+
 ## Collision Visualization
 - To view collision meshes, activate `Rendering`>`Model Elements`>`Convex Hull` and `Group Enable`>`Geom groups`>`Geom 3` in the left sidebar
 - It may also help to hide the visual meshes by deselecting `Geom 2`
