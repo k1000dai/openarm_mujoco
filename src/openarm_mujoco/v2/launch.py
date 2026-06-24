@@ -20,11 +20,29 @@ import sys
 
 import mujoco
 import mujoco.viewer
+import numpy as np
 
 import time
 import openarm_mujoco.v2 as openarm_mujoco
 
 _DEFAULT_SCENE = openarm_mujoco.openarm_cell_xml()
+
+
+def _randomize_free_joints(model, data, half_range, seed=None):
+    """Randomize the xy position of every free-jointed object.
+
+    Each free joint's x and y are shifted by an independent uniform offset in
+    [-half_range, half_range] meters; height and orientation are left unchanged.
+    The OpenArm robot uses hinge joints, so only manipulable objects (e.g. the
+    insertion peg/socket or the transfer cube) are affected.
+    """
+    rng = np.random.RandomState(seed)
+    for j in range(model.njnt):
+        if model.jnt_type[j] != mujoco.mjtJoint.mjJNT_FREE:
+            continue
+        qadr = model.jnt_qposadr[j]
+        data.qpos[qadr + 0] += rng.uniform(-half_range, half_range)
+        data.qpos[qadr + 1] += rng.uniform(-half_range, half_range)
 
 
 def main() -> int:
@@ -57,6 +75,23 @@ def main() -> int:
         action="store_true",
         help="Hide sheet mesh",
     )
+    parser.add_argument(
+        "--randomize",
+        action="store_true",
+        help="Randomize free-object (e.g. peg/socket) xy positions on load",
+    )
+    parser.add_argument(
+        "--randomize-range",
+        type=float,
+        default=0.05,
+        help="Half-range in meters for --randomize (default: 0.05)",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Random seed for --randomize (default: nondeterministic)",
+    )
     args = parser.parse_args()
 
     xml_path = args.xml
@@ -87,6 +122,10 @@ def main() -> int:
             if jid >= 0:
                 data.ctrl[i] = data.qpos[model.jnt_qposadr[jid]]
 
+        mujoco.mj_forward(model, data)
+
+    if args.randomize:
+        _randomize_free_joints(model, data, args.randomize_range, args.seed)
         mujoco.mj_forward(model, data)
 
     if not args.walls:
