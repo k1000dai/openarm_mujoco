@@ -39,7 +39,6 @@ limitations under the License.
 
     <body name="socket" pos="0.45 0.15 1.05">
       <freejoint/>
-      <inertial pos="0 0 0" mass="0.2" diaginertia="0.008 0.008 0.008"/>
       <geom name="socket-1" class="insertion_object" type="box" pos="0 0 -0.02"
             size="0.06 0.022 0.002" friction="1 0.05 0.001" rgba="0 0 1 1"/>
       <geom name="socket-2" class="insertion_object" type="box" pos="0 0 0.02"
