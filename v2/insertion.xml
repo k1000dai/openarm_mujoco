@@ -14,12 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<!--
-ALOHA-style insertion task: the right arm grasps the red peg and the left arm
-grasps the blue socket, then the peg is inserted into the socket. Peg and
-socket geometry follow gym-aloha's bimanual_viperx_insertion task.
--->
-
 <mujoco model="openarm_bimanual cell insertion">
   <visual>
     <global offwidth="960" offheight="600"/>
@@ -47,9 +41,9 @@ socket geometry follow gym-aloha's bimanual_viperx_insertion task.
       <freejoint/>
       <inertial pos="0 0 0" mass="0.05" diaginertia="0.002 0.002 0.002"/>
       <geom name="socket-1" class="insertion_object" type="box" pos="0 0 -0.02"
-            size="0.06 0.018 0.002" friction="1 0.05 0.001" rgba="0 0 1 1"/>
+            size="0.06 0.02 0.002" friction="1 0.05 0.001" rgba="0 0 1 1"/>
       <geom name="socket-2" class="insertion_object" type="box" pos="0 0 0.02"
-            size="0.06 0.018 0.002" friction="1 0.05 0.001" rgba="0 0 1 1"/>
+            size="0.06 0.02 0.002" friction="1 0.05 0.001" rgba="0 0 1 1"/>
       <geom name="socket-3" class="insertion_object" type="box" pos="0 0.02 0"
             size="0.06 0.002 0.018" friction="1 0.05 0.001" rgba="0 0 1 1"/>
       <geom name="socket-4" class="insertion_object" type="box" pos="0 -0.02 0"
