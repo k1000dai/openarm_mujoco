@@ -1,0 +1,96 @@
+<!--
+Copyright 2026 Enactic, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Cabinet open & place-plate task. The cabinet (single hinged door) and the plate
+are authored from MuJoCo box/cylinder primitives. The door/handle/hinge
+proportions are referenced from furniture_sim's "hingecabinet" (Apache-2.0,
+(c) Vikash Kumar, https://github.com/vikashplus/furniture_sim) and re-authored
+at tabletop scale.
+-->
+
+<mujoco model="openarm_bimanual cell cabinet">
+  <compiler angle="radian"/>
+  <visual>
+    <global offwidth="960" offheight="600"/>
+  </visual>
+
+  <default>
+    <default class="cabinet">
+      <geom type="box" rgba="0.55 0.36 0.20 1" contype="1" conaffinity="1"
+            condim="3" friction="1 0.05 0.001"/>
+    </default>
+    <default class="cabinet_door">
+      <geom rgba="0.62 0.42 0.25 1" contype="1" conaffinity="1"
+            condim="3" friction="1 0.1 0.001"/>
+    </default>
+  </default>
+
+  <asset>
+    <model name="cell" file="cell.xml"/>
+  </asset>
+  <worldbody>
+    <attach model="cell" prefix=""/>
+
+    <!-- Cabinet carcass: static (welded to world), opening faces -x (toward the
+         robot). Interior ~ x[0.54,0.70] (depth 0.16) x y[-0.10,0.10] (width 0.20)
+         x z[1.015,1.155] (height 0.14). Bottom panel rests on the table top
+         (z=1.005). -->
+    <body name="cabinet" pos="0 0 0">
+      <geom name="cabinet_bottom" class="cabinet" pos="0.625 0 1.010"
+            size="0.085 0.11 0.005"/>
+      <geom name="cabinet_top"    class="cabinet" pos="0.625 0 1.160"
+            size="0.085 0.11 0.005"/>
+      <geom name="cabinet_back"   class="cabinet" pos="0.705 0 1.085"
+            size="0.005 0.11 0.075"/>
+      <geom name="cabinet_side_left"  class="cabinet" pos="0.625 0.105 1.085"
+            size="0.085 0.005 0.075"/>
+      <geom name="cabinet_side_right" class="cabinet" pos="0.625 -0.105 1.085"
+            size="0.085 0.005 0.075"/>
+
+      <!-- Single hinged door over the -x opening. Hinge axis vertical (z) at the
+           +y front corner; the door swings open toward -x (negative angle).
+           A vertical hinge has no gravitational torque, so the door holds its
+           pose; damping/frictionloss keep it settled. -->
+      <body name="cabinet_door" pos="0.53 0.10 1.085">
+        <joint name="cabinet_door_hinge" type="hinge" axis="0 0 1"
+               range="-1.3 0.0" damping="1" frictionloss="0.2"/>
+        <geom name="door_panel" class="cabinet_door" type="box"
+              pos="0 -0.10 0" size="0.006 0.10 0.07"/>
+        <!-- U-shaped grab handle on the free (-y) edge, standing proud of the
+             -x face so the gripper can wrap it. -->
+        <geom name="door_handle_bar" type="cylinder" pos="-0.04 -0.19 0"
+              size="0.011 0.05" rgba="0.6 0.6 0.62 1"
+              contype="1" conaffinity="1" condim="3" friction="1 0.5 0.01"/>
+        <geom name="door_handle_top" type="box" pos="-0.02 -0.19 0.035"
+              size="0.022 0.008 0.008" rgba="0.6 0.6 0.62 1"
+              contype="1" conaffinity="1"/>
+        <geom name="door_handle_bottom" type="box" pos="-0.02 -0.19 -0.035"
+              size="0.022 0.008 0.008" rgba="0.6 0.6 0.62 1"
+              contype="1" conaffinity="1"/>
+      </body>
+    </body>
+
+    <!-- Plate: a free-floating flat disk to be placed inside the cabinet.
+         Outer diameter 0.13, thickness 0.016. Spawned front-right, a few mm
+         above resting height so it settles. -->
+    <body name="plate" pos="0.40 -0.15 1.02">
+      <freejoint/>
+      <geom name="plate_geom" type="cylinder" size="0.065 0.008" mass="0.08"
+            rgba="0.90 0.90 0.95 1" friction="1 0.5 0.01"
+            condim="4" contype="1" conaffinity="1"/>
+    </body>
+  </worldbody>
+
+</mujoco>

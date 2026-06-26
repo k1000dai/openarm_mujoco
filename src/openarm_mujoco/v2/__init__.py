@@ -91,6 +91,11 @@ def openarm_insertion_xml() -> str:
     return asset_path("insertion.xml")
 
 
+def openarm_cabinet_xml() -> str:
+    """Return the XML path for the OpenArm Cell cabinet task."""
+    return asset_path("cabinet.xml")
+
+
 def openarm_pedestal_xml() -> str:
     """Return the XML path with pedestal."""
     return asset_path("pedestal.xml")
