@@ -40,6 +40,11 @@ limitations under the License.
     <light pos="0 0 2" dir="0 0 -1" directional="true"/>
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
 
+    <!-- stereo head camera above the arm base, looking down at the
+         workspace; same offsets from the arm attach point as in the cell -->
+    <camera name="camera_head_left"  pos="0.038 0.0315 0.808"  xyaxes="0 -1 0 0.882948 0 0.469472" fovy="52" resolution="1280 720"/>
+    <camera name="camera_head_right" pos="0.038 -0.0315 0.808" xyaxes="0 -1 0 0.882948 0 0.469472" fovy="52" resolution="1280 720"/>
+
     <!-- bimanual arms mounted on the pedestal -->
     <attach model="arm_pedestal" prefix=""/>
   </worldbody>
